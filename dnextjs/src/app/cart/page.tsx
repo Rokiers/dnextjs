@@ -1,59 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
-import { CartItem } from '@/types';
-
-// 模拟购物车数据
-const initialCartItems: CartItem[] = [
-  {
-    product: {
-      id: '1',
-      name: 'iPhone 15 Pro Max',
-      description: '最新款苹果旗舰手机，配备A17 Pro芯片',
-      price: 9999,
-      image: '/placeholder-product.jpg',
-      category: 'electronics',
-      stock: 50,
-    },
-    quantity: 1,
-  },
-  {
-    product: {
-      id: '3',
-      name: 'AirPods Pro 2',
-      description: '主动降噪无线耳机，音质出众',
-      price: 1899,
-      image: '/placeholder-product.jpg',
-      category: 'electronics',
-      stock: 100,
-    },
-    quantity: 2,
-  },
-];
+import { useCart } from '@/contexts/CartContext';
 
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
+  const { cartItems, updateQuantity, removeFromCart, getCartTotal } = useCart();
 
-  const updateQuantity = (productId: string, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    setCartItems(
-      cartItems.map((item) =>
-        item.product.id === productId ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const removeItem = (productId: string) => {
-    setCartItems(cartItems.filter((item) => item.product.id !== productId));
-  };
-
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
-    0
-  );
+  const subtotal = getCartTotal();
   const shipping = subtotal > 0 ? 50 : 0;
   const total = subtotal + shipping;
 
@@ -107,9 +62,10 @@ export default function CartPage() {
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() =>
-                          updateQuantity(item.product.id, item.quantity - 1)
+                          updateQuantity(item.product.id, Math.max(1, item.quantity - 1))
                         }
-                        className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100"
+                        disabled={item.quantity <= 1}
+                        className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <Minus size={16} />
                       </button>
@@ -120,7 +76,8 @@ export default function CartPage() {
                         onClick={() =>
                           updateQuantity(item.product.id, item.quantity + 1)
                         }
-                        className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100"
+                        disabled={item.quantity >= item.product.stock}
+                        className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <Plus size={16} />
                       </button>
@@ -138,8 +95,9 @@ export default function CartPage() {
 
                 {/* 删除按钮 */}
                 <button
-                  onClick={() => removeItem(item.product.id)}
+                  onClick={() => removeFromCart(item.product.id)}
                   className="text-red-600 hover:text-red-700 self-start"
+                  title="从购物车移除"
                 >
                   <Trash2 size={20} />
                 </button>

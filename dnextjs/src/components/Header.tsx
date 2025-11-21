@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { ShoppingCart, User, Search, Menu } from 'lucide-react';
 import { useState } from 'react';
+import { useCart } from '@/contexts/CartContext';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { getCartCount } = useCart();
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -39,9 +41,11 @@ export default function Header() {
             </Link>
             <Link href="/cart" className="relative hover:text-blue-600">
               <ShoppingCart size={24} />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                0
-              </span>
+              {getCartCount() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {getCartCount()}
+                </span>
+              )}
             </Link>
             <button
               className="md:hidden"
