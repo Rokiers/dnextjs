@@ -8,11 +8,17 @@ import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
 import { UsersModule } from './users/users.module';
 import { CartModule } from './cart/cart.module';
+import { validateEnv } from './config/env.validation';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      validate: validateEnv,
+      validationOptions: {
+        allowUnknown: true,
+        abortEarly: false,
+      },
     }),
     PrismaModule,
     ProductsModule,
