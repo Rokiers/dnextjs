@@ -7,7 +7,9 @@ import { CreateProductDto, UpdateProductDto } from './dto';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-
+  //这里为什么需要依赖注入呢，因为你不这么写，每次都需要new 这么写不需要new了，而且全局只有一个，不然
+  //而且这么做是单例模式，全局只有一个，不至于说十个地方用这个引入的这个文件，就会有十个对象
+  //大家拿到的是一个对象，共享的，而且如果有链式的依赖的时候，需要一层一层的封装很痛苦
   @Get()
   @ApiOperation({ summary: 'Get all products' })
   findAll(@Query('category') category?: string) {

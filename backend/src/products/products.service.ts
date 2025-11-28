@@ -5,6 +5,7 @@ import { CreateProductDto, UpdateProductDto } from './dto';
 @Injectable()
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
+  //这里也是依赖注入，说明是一种组合优于继承的实践，他说不是语法糖，是反射元数据1，不懂
 
   async findAll(category?: string) {
     return this.prisma.product.findMany({
