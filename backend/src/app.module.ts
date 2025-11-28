@@ -8,6 +8,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
 import { UsersModule } from './users/users.module';
 import { CartModule } from './cart/cart.module';
+import { AuthModule } from './auth/auth.module';
 import { validateEnv } from './config/env.validation';
 
 @Module({
@@ -26,6 +27,7 @@ import { validateEnv } from './config/env.validation';
     OrdersModule,
     UsersModule,
     CartModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
