@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Delete, Body, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CartService } from './cart.service';
+import { AddCartItemDto } from './dto/add-item.dto';
 
 @ApiTags('Cart')
 @Controller('cart')
@@ -17,9 +18,9 @@ export class CartController {
   @ApiOperation({ summary: 'Add item to cart' })
   addItem(
     @Param('userId') userId: string,
-    @Body() body: { productId: string; quantity: number },
+    @Body() dto: AddCartItemDto,
   ) {
-    return this.cartService.addItem(userId, body.productId, body.quantity);
+    return this.cartService.addItem(userId, dto.productId, dto.quantity);
   }
 
   @Delete(':userId/items/:productId')

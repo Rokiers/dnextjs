@@ -8,7 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
   imports: [
     UsersModule, // 导入 UsersModule 以使用 UsersService
-    JwtModule.registerAsync({
+    JwtModule.registerAsync({ //这里实际上是让模块可以依赖其他服务，使用inject 可以叫来相关的模块功能，然后进行依赖注入
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET'),
