@@ -154,3 +154,6 @@ docker run -p 3000:3000 nextjs-shop
 ## 📄 许可证
 
 MIT License
+
+
+## 可能后面要添加rprc 和 nextauth 来使用 这个注意一下就行，先把功能完善，之后再添加这些
