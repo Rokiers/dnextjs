@@ -7,6 +7,8 @@ import JsonLd from "@/components/JsonLd";
 import { generateWebsiteJsonLd, generateOrganizationJsonLd } from "@/lib/seo";
 import { CartProvider } from "@/contexts/CartContext";
 
+import { AntdRegistry } from '@ant-design/nextjs-registry'; //antd 为了nextjs 的服务器渲染特制的
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -90,7 +92,7 @@ export default function RootLayout({
         <CartProvider>
           <Header />
           <main className="min-h-screen bg-gray-50">
-            {children}
+            <AntdRegistry>{children}</AntdRegistry>
           </main>
           <Footer />
         </CartProvider>
