@@ -42,3 +42,13 @@ export interface CartItem {
   product: Product;
   quantity: number;
 }
+
+interface AuthData {
+  email: string;
+  name: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export type LoginForm  = Pick<AuthData,"name" | "password">
+export type RegisterForm = AuthData 

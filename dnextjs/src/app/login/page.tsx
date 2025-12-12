@@ -7,6 +7,8 @@ import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input } from 'antd';
 
+import type { LoginForm,RegisterForm } from '@/types';
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
